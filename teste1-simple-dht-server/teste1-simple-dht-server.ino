@@ -154,6 +154,7 @@ void loop(){
     // Read temperature as Fahrenheit (isFahrenheit = true)
     //float newT = dht.readTemperature(true);
     // if temperature read failed, don't change t value
+    
     if (isnan(newT)) {
       Serial.println("Failed to read from DHT sensor!");
     }
@@ -162,6 +163,7 @@ void loop(){
       Serial.print("Temperatura: ");
       Serial.println(t);
     }
+    
     // Read Humidity
     float newH = dht.readHumidity();
     // if humidity read failed, don't change h value 
@@ -173,5 +175,6 @@ void loop(){
       Serial.print("Umidade: ");
       Serial.println(h);
     }
+    Serial.println("----------");
   }
 }
