@@ -13,7 +13,7 @@
 #include <DHT.h>
 
 // Replace with your network credentials
-const char* ssid = "WIFI_W5";
+const char* ssid = "2121_W5";
 const char* password = "gjx2121fbo";
 
 #define DHTPIN 5     // Digital pin connected to the DHT sensor
