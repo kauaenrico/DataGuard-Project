@@ -1,9 +1,3 @@
-/*********
-  Rui Santos
-  Complete project details at https://randomnerdtutorials.com/esp8266-dht11dht22-temperature-and-humidity-web-server-with-arduino-ide/
-*********/
-
-// Import required libraries
 #include <Arduino.h>
 #include <ESP8266WiFi.h>
 #include <Hash.h>
@@ -12,20 +6,16 @@
 #include <Adafruit_Sensor.h>
 #include <DHT.h>
 
-// Replace with your network credentials
+//WIFI
 const char* ssid = "2121_W5";
 const char* password = "gjx2121fbo";
 
-#define DHTPIN 5     // Digital pin connected to the DHT sensor
-
-// Uncomment the type of sensor in use:
-//#define DHTTYPE    DHT11     // DHT 11
-#define DHTTYPE    DHT22     // DHT 22 (AM2302)
-//#define DHTTYPE    DHT21     // DHT 21 (AM2301)
-
+//sensor temp umid
+#define DHTPIN 5
+#define DHTTYPE    DHT22
 DHT dht(DHTPIN, DHTTYPE);
 
-// current temperature & humidity, updated in loop()
+//iniciando var em zero- no loop() ele é atualizado
 float t = 0.0;
 float h = 0.0;
 
@@ -101,6 +91,8 @@ setInterval(function ( ) {
 </script>
 </html>)rawliteral";
 
+
+
 // Replaces placeholder with DHT values
 String processor(const String& var){
   //Serial.println(var);
@@ -120,10 +112,11 @@ void setup(){
   
   // Connect to Wi-Fi
   WiFi.begin(ssid, password);
-  Serial.println("Connecting to WiFi");
+  Serial.print("Conexão com WiFi ");
+  Serial.println(ssid);
   while (WiFi.status() != WL_CONNECTED) {
-    delay(1000);
-    Serial.println(".");
+    delay(500);
+    Serial.println("Conectando...");
   }
 
   // Print ESP8266 Local IP Address
