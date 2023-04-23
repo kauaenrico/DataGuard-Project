@@ -161,7 +161,8 @@ void loop(){
     else {
       t = newT;
       Serial.print("Temperatura: ");
-      Serial.println(t);
+      Serial.print(t);
+      Serial.println("ºC");
     }
     
     // Read Humidity
@@ -173,7 +174,8 @@ void loop(){
     else {
       h = newH;
       Serial.print("Umidade: ");
-      Serial.println(h);
+      Serial.print(h);
+      Serial.println("%");
     }
     Serial.println("----------");
   }
