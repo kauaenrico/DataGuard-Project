@@ -112,6 +112,9 @@ void setup(){
   
   // Connect to Wi-Fi
   WiFi.begin(ssid, password);
+  Serial.println("#");
+  Serial.println("#");
+  Serial.println("#");
   Serial.print("Conexão com WiFi ");
   Serial.println(ssid);
   while (WiFi.status() != WL_CONNECTED) {
@@ -120,7 +123,13 @@ void setup(){
   }
 
   // Print ESP8266 Local IP Address
+  Serial.print("IP obtido: ");
   Serial.println(WiFi.localIP());
+  Serial.println("#");
+  Serial.println("#");
+  Serial.println("#");
+
+
 
   // Route for root / web page
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
