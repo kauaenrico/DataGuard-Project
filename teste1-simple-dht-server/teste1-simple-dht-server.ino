@@ -34,7 +34,6 @@ const char index_html[] PROGMEM = R"rawliteral(
 <!DOCTYPE HTML><html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
   <style>
     html {
      font-family: Arial;
@@ -56,6 +55,7 @@ const char index_html[] PROGMEM = R"rawliteral(
   <h2>ESP8266 com leitura do sensor DHT22</h2>
   <p>
     <i class="fas fa-thermometer-half" style="color:#059e8a;"></i> 
+    <span class="dht-labels">&#10052;</span> 
     <span class="dht-labels">Temperatura</span> 
     <span id="temperature">%TEMPERATURA%</span>
     <sup class="units">&deg;C</sup>
