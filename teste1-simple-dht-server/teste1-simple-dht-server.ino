@@ -1,39 +1,40 @@
 #include <Arduino.h>
 #include <ESP8266WiFi.h>
-#include <Hash.h>
 #include <ESPAsyncTCP.h>
 #include <ESPAsyncWebServer.h>
 #include <Adafruit_Sensor.h>
 #include <DHT.h>
 
 //WIFI
-const char* ssid = "2121_W5";
-const char* password = "gjx2121fbo";
+  const char* ssid = "2121_W5";
+  const char* password = "gjx2121fbo";
 
 //sensor temp umid
-#define DHTPIN 5
-#define DHTTYPE    DHT22
-DHT dht(DHTPIN, DHTTYPE);
+  #define DHTPIN 5
+  #define DHTTYPE    DHT22
+  DHT dht(DHTPIN, DHTTYPE);
+  unsigned long previousMillis = 0;    // will store last time DHT was updated
+  const long interval = 500;  // Updates DHT readings
+
+
 
 //iniciando var em zero- no loop() ele é atualizado
-float t = 0.0;
-float h = 0.0;
+float temp = 0.0, hum = 0.0;
 
 // Create AsyncWebServer object on port 80
-AsyncWebServer server(80);
+  AsyncWebServer server(80);
 
-// Generally, you should use "unsigned long" for variables that hold time
-// The value will quickly become too large for an int to store
-unsigned long previousMillis = 0;    // will store last time DHT was updated
 
-// Updates DHT readings every 10 seconds
-const long interval = 500;  
+
+
+
+
 
 const char index_html[] PROGMEM = R"rawliteral(
 <!DOCTYPE HTML><html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
   <style>
     html {
      font-family: Arial;
@@ -56,13 +57,13 @@ const char index_html[] PROGMEM = R"rawliteral(
   <p>
     <i class="fas fa-thermometer-half" style="color:#059e8a;"></i> 
     <span class="dht-labels">Temperatura</span> 
-    <span id="temperature">%TEMPERATURE%</span>
+    <span id="temperature">%TEMPERATURA%</span>
     <sup class="units">&deg;C</sup>
   </p>
   <p>
     <i class="fas fa-tint" style="color:#00add6;"></i> 
     <span class="dht-labels">Umidade</span>
-    <span id="humidity">%HUMIDITY%</span>
+    <span id="humidity">%UMIDADE%</span>
     <sup class="units">%</sup>
   </p>
 </body>
@@ -90,17 +91,17 @@ setInterval(function ( ) {
 }, 10000 ) ;
 </script>
 </html>)rawliteral";
-
+//FIM DO HTML AQUI
 
 
 // Replaces placeholder with DHT values
 String processor(const String& var){
   //Serial.println(var);
-  if(var == "TEMPERATURE"){
-    return String(t);
+  if(var == "TEMPERATURA"){
+    return String(temp);
   }
-  else if(var == "HUMIDITY"){
-    return String(h);
+  else if(var == "UMIDADE"){
+    return String(hum);
   }
   return String();
 }
@@ -136,10 +137,10 @@ void setup(){
     request->send_P(200, "text/html", index_html, processor);
   });
   server.on("/temperature", HTTP_GET, [](AsyncWebServerRequest *request){
-    request->send_P(200, "text/plain", String(t).c_str());
+    request->send_P(200, "text/plain", String(temp).c_str());
   });
   server.on("/humidity", HTTP_GET, [](AsyncWebServerRequest *request){
-    request->send_P(200, "text/plain", String(h).c_str());
+    request->send_P(200, "text/plain", String(hum).c_str());
   });
 
   // Start server
@@ -161,9 +162,9 @@ void loop(){
       Serial.println("Failed to read from DHT sensor!");
     }
     else {
-      t = newT;
+      temp = newT;
       Serial.print("Temperatura: ");
-      Serial.print(t);
+      Serial.print(temp);
       Serial.println("ºC");
     }
     
@@ -174,9 +175,9 @@ void loop(){
       Serial.println("Failed to read from DHT sensor!");
     }
     else {
-      h = newH;
+      hum = newH;
       Serial.print("Umidade: ");
-      Serial.print(h);
+      Serial.print(hum);
       Serial.println("%");
     }
     Serial.println("----------");
