@@ -34,37 +34,20 @@ const char index_html[] PROGMEM = R"rawliteral(
 <!DOCTYPE HTML><html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    html {
-     font-family: Arial;
-     display: inline-block;
-     margin: 0px auto;
-     text-align: center;
-    }
-    h2 { font-size: 3.0rem; }
-    p { font-size: 3.0rem; }
-    .units { font-size: 1.2rem; }
-    .dht-labels{
-      font-size: 1.5rem;
-      vertical-align:middle;
-      padding-bottom: 15px;
-    }
-  </style>
 </head>
 <body>
-  <h2>ESP8266 com leitura do sensor DHT22</h2>
+  <h2>ESP8266+DHT22</h2>
   <p>
-    <i class="fas fa-thermometer-half" style="color:#059e8a;"></i> 
-    <span class="dht-labels">&#10052;</span> 
-    <span class="dht-labels">Temperatura</span> 
+    <span>&#10052;</span>
+    <span>Temperatura</span> 
     <span id="temperature">%TEMPERATURA%</span>
-    <sup class="units">&deg;C</sup>
+    <sup>&deg;C</sup>
   </p>
   <p>
-    <i class="fas fa-tint" style="color:#00add6;"></i> 
-    <span class="dht-labels">Umidade</span>
+    <span>&#127777;</span>  
+    <span>Umidade</span>
     <span id="humidity">%UMIDADE%</span>
-    <sup class="units">%</sup>
+    <sup>%</sup>
   </p>
 </body>
 <script>
