@@ -4,6 +4,7 @@
 #include <ESPAsyncWebServer.h>
 #include <Adafruit_Sensor.h>
 #include <DHT.h>
+#include <stdio.h>
 
 //WIFI
   const char* ssid = "DELL de Kauã";
@@ -50,7 +51,20 @@ const char index_html[] PROGMEM = R"rawliteral(
     <sup>%</sup>
   </p>
 </body>
+
 <script>
+
+// Obtém os valores de temperatura e umidade dos elementos HTML
+var temperature = document.getElementById("temperature").textContent;
+var humidity = document.getElementById("humidity").textContent;
+
+// Cria variáveis globais para armazenar os valores
+window.globalTemperature = temperature;
+window.globalHumidity = humidity;
+
+
+
+
 setInterval(function ( ) {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
