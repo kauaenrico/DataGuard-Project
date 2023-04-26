@@ -54,15 +54,20 @@ const char index_html[] PROGMEM = R"rawliteral(
 
 <script>
 
-// Obtém os valores de temperatura e umidade dos elementos HTML
-var temperature = document.getElementById("temperature").textContent;
-var humidity = document.getElementById("humidity").textContent;
 
-// Cria variáveis globais para armazenar os valores
-window.globalTemperature = temperature;
-window.globalHumidity = humidity;
+// Obtém os valores de temperatura e umidade dos elementos HTML e atualiza as variáveis globais
+function updateValues() {
+  var temperature = document.getElementById("temperature").textContent;
+  var humidity = document.getElementById("humidity").textContent;
+  window.globalTemperature = temperature;
+  window.globalHumidity = humidity;
+  //PRINTAR NO CONSOLE O VALOR  
+  //console.log(humidity);
+  //console.log(temperature);
+}
 
-
+// Atualiza os valores 
+setInterval(updateValues, 500);
 
 
 setInterval(function ( ) {
