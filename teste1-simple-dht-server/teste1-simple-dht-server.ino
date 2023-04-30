@@ -7,8 +7,8 @@
 #include <stdio.h>
 
 //WIFI
-  const char* ssid = "DELL de Kauã";
-  const char* password = "123456789k";
+  const char* ssid = "2121_W5";
+  const char* password = "gjx2121fbo";
 
 //sensor temp umid
   #define DHTPIN 5
