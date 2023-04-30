@@ -5,10 +5,29 @@
 #include <Adafruit_Sensor.h>
 #include <DHT.h>
 #include <stdio.h>
+#include <Arduino_SNMP.h>
+#include <WiFiUdp.h>
+
+
+//Inicia o SMMPAgent
+WiFiUDP udp;
+SNMPAgent snmp = SNMPAgent("public");
+
+//Referências para o SNMP
+int humidity;
+int temperature;
+
 
 //WIFI
   const char* ssid = "2121_W5";
   const char* password = "gjx2121fbo";
+  // Set your Static IP address
+  IPAddress local_IP(192, 168, 15, 184);
+  // Set your Gateway IP address
+  IPAddress gateway(192, 168, 15, 1);
+  IPAddress subnet(255, 255, 255, 0);
+  IPAddress primaryDNS(8, 8, 8, 8); // optional
+  IPAddress secondaryDNS(1, 1, 1, 1); // optional
 
 //sensor temp umid
   #define DHTPIN 5
@@ -108,12 +127,50 @@ String processor(const String& var){
   return String();
 }
 
+
+
+void setupSNMP()
+{
+  //Inicializa o snmp
+  snmp.setUDP(&udp);
+  snmp.begin();
+  //Adiciona o OID para umidade (apenas leitura)
+  snmp.addReadOnlyIntegerHandler(".1.3.6.1.4.1.12345.0", humidity, false);
+  //Adiciona o OID para temperatura (apenas leitura)
+  snmp.addReadOnlyIntegerHandler(".1.3.6.1.4.1.12345.1", temperature, false);
+
+}
+
+
+
+void verifySNMP()
+{
+  //Deve ser sempre chamado durante o loop principal
+  snmp.loop();
+
+  //Se aconteceu alteração de um dos valores
+  if(snmp.setOccurred)
+  {
+    //Reseta a flag de alteração
+    snmp.resetSetOccurred();
+  }
+}
+
+
+//////////////////////////////////////////
+
 void setup(){
+  setupSNMP();
   // Serial port for debugging purposes
   Serial.begin(115200);
   dht.begin();
   
   // Connect to Wi-Fi
+  // Configures static IP address
+  if (!WiFi.config(local_IP, gateway, subnet, primaryDNS, secondaryDNS)) {
+     Serial.println("STA Failed to configure");
+  }
+  
   WiFi.begin(ssid, password);
   Serial.println("#");
   Serial.println("#");
@@ -148,6 +205,8 @@ void setup(){
   // Start server
   server.begin();
 }
+
+/////////
  
 void loop(){  
   unsigned long currentMillis = millis();
@@ -184,4 +243,5 @@ void loop(){
     }
     Serial.println("----------");
   }
+  verifySNMP();
 }
