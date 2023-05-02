@@ -17,14 +17,26 @@
 
 
 //WIFI
-  const char* ssid = "2121_W5";
-  const char* password = "gjx2121fbo";
+  const char* ssid = "DELL de Kauã";
+  const char* password = "123456789k";
+  
   // Set your Static IP address
-  IPAddress local_IP(192, 168, 15, 184);
-  IPAddress gateway(192, 168, 15, 1);
+  IPAddress local_IP(192, 168, 137, 214);
+  IPAddress gateway(192, 168, 137, 1);
   IPAddress subnet(255, 255, 255, 0);
   IPAddress primaryDNS(8, 8, 8, 8); // optional
   IPAddress secondaryDNS(1, 1, 1, 1); // optional
+
+// SNMP
+WiFiUDP udp;
+SNMPAgent snmp = SNMPAgent("public");  // Starts an SMMPAgent instance with the community string 'public'
+
+//VARs SNMP
+int changingNumber;
+int changingNumber2;
+int settableNumber = 0; //uptime
+
+ 
 
 //sensor temp umid
   #define DHTPIN 5
@@ -73,13 +85,18 @@ const char index_html[] PROGMEM = R"rawliteral(
 
 // Obtém os valores de temperatura e umidade dos elementos HTML e atualiza as variáveis globais
 function updateValues() {
-  var temperature = document.getElementById("temperature").textContent;
-  var humidity = document.getElementById("humidity").textContent;
-  window.globalTemperature = temperature;
-  window.globalHumidity = humidity;
-  //PRINTAR NO CONSOLE O VALOR  
-  //console.log(humidity);
-  //console.log(temperature);
+  var getTemp = document.getElementById("temperature").textContent;
+  var getHum = document.getElementById("humidity").textContent;
+  window.globalTemperature = getTemp;
+  window.globalHumidity = getHum;
+  
+
+  
+  //DEBUG PRINTAR NO CONSOLE O VALOR  
+//  console.log(getTemp);
+//  console.log(getHum);
+
+  
 }
 
 // Atualiza os valores 
@@ -144,9 +161,9 @@ void setup(){
   
   // Connect to Wi-Fi
   // Configures static IP address
-  if (!WiFi.config(local_IP, gateway, subnet, primaryDNS, secondaryDNS)) {
-     Serial.println("STA Failed to configure");
-  }
+//  if (!WiFi.config(local_IP, gateway, subnet, primaryDNS, secondaryDNS)) {
+//     Serial.println("STA Failed to configure");
+//  }
   
   WiFi.begin(ssid, password);
   Serial.println("#");
@@ -162,10 +179,21 @@ void setup(){
   // Print ESP8266 Local IP Address
   Serial.print("IP obtido: ");
   Serial.println(WiFi.localIP());
-  Serial.println("#");
-  Serial.println("#");
-  Serial.println("#");
+  Serial.println("#");  Serial.println("#");  Serial.println("#");
 
+  //SNMP
+  // give snmp a pointer to the UDP object
+  snmp.setUDP(&udp);
+  snmp.begin();
+
+  // add 'callback' for an OID - pointer to an integer
+  snmp.addIntegerHandler(".1.3.6.1.4.1.5.0", &changingNumber);
+  snmp.addIntegerHandler(".1.3.6.1.4.1.5.2", &changingNumber2);  
+  // you can accept SET commands with a pointer to an integer (or string)
+  snmp.addIntegerHandler(".1.3.6.1.4.1.5.1", &settableNumber);
+
+
+  
 
 
   // Route for root / web page
@@ -220,5 +248,29 @@ void loop(){
     }
     Serial.println("----------");
   }
-  
+
+
+//SNMP
+    snmp.loop(); // must be called as often as possible
+    if(snmp.setOccurred){
+        Serial.printf("Number has been set to value: %i", settableNumber);
+        snmp.resetSetOccurred();
+    }
+    //changingNumber++;
+
+   changingNumber=temp;
+   changingNumber2=hum;
+   
+   if(Serial.available()){
+    changingNumber2=Serial.parseInt();
+    Serial.println(changingNumber2);
+    delay(1000);
+   }
+
+
+  if(1==1){ //UPTIME
+    settableNumber=settableNumber+1;
+    delay(990);
+    //DEBUG PURPOSES Serial.print("uptime: "); Serial.println(settableNumber);
+  }
 }
