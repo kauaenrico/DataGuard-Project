@@ -7,15 +7,13 @@
 #include <stdio.h>
 #include <Arduino_SNMP.h>
 #include <WiFiUdp.h>
+#include <SNMP_Agent.h>
+
+#include <LittleFS.h>    // For storing and retreiving previous values or states (note: SPIFFS is deprecated and replaced by LittleFS)
+#include <ArduinoJson.h> // Saved data will be stored in JSON
+#define FORMAT_LITTLEFS_IF_FAILED true // Be careful, this will wipe all the data stored. So you may want to set this to false once used once.
 
 
-//Inicia o SMMPAgent
-WiFiUDP udp;
-SNMPAgent snmp = SNMPAgent("public");
-
-//Referências para o SNMP
-int humidity;
-int temperature;
 
 
 //WIFI
@@ -23,7 +21,6 @@ int temperature;
   const char* password = "gjx2121fbo";
   // Set your Static IP address
   IPAddress local_IP(192, 168, 15, 184);
-  // Set your Gateway IP address
   IPAddress gateway(192, 168, 15, 1);
   IPAddress subnet(255, 255, 255, 0);
   IPAddress primaryDNS(8, 8, 8, 8); // optional
@@ -113,7 +110,7 @@ setInterval(function ( ) {
 </script>
 </html>)rawliteral";
 //FIM DO HTML AQUI
-
+///////////////////////////////
 
 // Replaces placeholder with DHT values
 String processor(const String& var){
@@ -129,38 +126,18 @@ String processor(const String& var){
 
 
 
-void setupSNMP()
-{
-  //Inicializa o snmp
-  snmp.setUDP(&udp);
-  snmp.begin();
-  //Adiciona o OID para umidade (apenas leitura)
-  snmp.addReadOnlyIntegerHandler(".1.3.6.1.4.1.12345.0", humidity, false);
-  //Adiciona o OID para temperatura (apenas leitura)
-  snmp.addReadOnlyIntegerHandler(".1.3.6.1.4.1.12345.1", temperature, false);
-
-}
 
 
 
-void verifySNMP()
-{
-  //Deve ser sempre chamado durante o loop principal
-  snmp.loop();
 
-  //Se aconteceu alteração de um dos valores
-  if(snmp.setOccurred)
-  {
-    //Reseta a flag de alteração
-    snmp.resetSetOccurred();
-  }
-}
+
+
+
 
 
 //////////////////////////////////////////
 
 void setup(){
-  setupSNMP();
   // Serial port for debugging purposes
   Serial.begin(115200);
   dht.begin();
@@ -243,5 +220,5 @@ void loop(){
     }
     Serial.println("----------");
   }
-  verifySNMP();
+  
 }
