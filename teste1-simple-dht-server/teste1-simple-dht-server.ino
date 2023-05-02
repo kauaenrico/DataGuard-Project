@@ -262,7 +262,7 @@ void loop(){
    changingNumber=temp;
    changingNumber2=hum;
 
-   void loop(){ //UPTIME
+   if(1==1){ //UPTIME
    uptimeValue=uptimeValue+1;
    settableNumber=uptimeValue;
    delay(990);
@@ -282,4 +282,3 @@ void loop(){
  //   delay(990);
     //DEBUG  Serial.print("uptime: "); Serial.println(settableNumber);
   }
-}
