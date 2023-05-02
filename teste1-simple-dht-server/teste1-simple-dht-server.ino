@@ -34,7 +34,8 @@ SNMPAgent snmp = SNMPAgent("public");  // Starts an SMMPAgent instance with the 
 //VARs SNMP
 int changingNumber;
 int changingNumber2;
-int settableNumber = 0; //uptime
+int settableNumber;
+int uptimeValue=0;
 
  
 
@@ -260,6 +261,14 @@ void loop(){
 
    changingNumber=temp;
    changingNumber2=hum;
+
+   void loop(){ //UPTIME
+   uptimeValue=uptimeValue+1;
+   settableNumber=uptimeValue;
+   delay(990);
+   //DEBUG
+   Serial.print("uptime: "); Serial.println(uptimeValue);
+   }
    
    if(Serial.available()){
     changingNumber2=Serial.parseInt();
@@ -268,9 +277,9 @@ void loop(){
    }
 
 
-  if(1==1){ //UPTIME
-    settableNumber=settableNumber+1;
-    delay(990);
-    //DEBUG PURPOSES Serial.print("uptime: "); Serial.println(settableNumber);
+ // if(1==1){ //UPTIME
+ //   settableNumber=settableNumber+1;
+ //   delay(990);
+    //DEBUG  Serial.print("uptime: "); Serial.println(settableNumber);
   }
 }
