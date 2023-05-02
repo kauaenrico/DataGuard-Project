@@ -9,16 +9,12 @@ const char* password = "gjx2121fbo";
 WiFiUDP udp;
 SNMPAgent snmp = SNMPAgent("public");  // Starts an SMMPAgent instance with the community string 'public'
 
-int changingNumber;
-int changingNumber2;
-int settableNumber;
+int changingNumber = 0;
+int changingNumber2; //serial read
+int settableNumber = 0; //uptime
 
 
 void setup(){
-  int changingNumber = 0;
-  int changingNumber2 = 0;
-  int settableNumber = 0; //uptime
-
   
     Serial.begin(115200);
     WiFi.begin(ssid, password);
