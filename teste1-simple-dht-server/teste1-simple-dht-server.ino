@@ -4,10 +4,40 @@
 #include <ESPAsyncWebServer.h>
 #include <Adafruit_Sensor.h>
 #include <DHT.h>
+#include <stdio.h>
+#include <Arduino_SNMP.h>
+#include <WiFiUdp.h>
+#include <SNMP_Agent.h>
+
+#include <LittleFS.h>    // For storing and retreiving previous values or states (note: SPIFFS is deprecated and replaced by LittleFS)
+#include <ArduinoJson.h> // Saved data will be stored in JSON
+#define FORMAT_LITTLEFS_IF_FAILED true // Be careful, this will wipe all the data stored. So you may want to set this to false once used once.
+
+
+
 
 //WIFI
-  const char* ssid = "2121_W5";
-  const char* password = "gjx2121fbo";
+  const char* ssid = "DELL de Kauã";
+  const char* password = "123456789k";
+  
+  // Set your Static IP address
+  IPAddress local_IP(192, 168, 137, 214);
+  IPAddress gateway(192, 168, 137, 1);
+  IPAddress subnet(255, 255, 255, 0);
+  IPAddress primaryDNS(8, 8, 8, 8); // optional
+  IPAddress secondaryDNS(1, 1, 1, 1); // optional
+
+// SNMP
+WiFiUDP udp;
+SNMPAgent snmp = SNMPAgent("public");  // Starts an SMMPAgent instance with the community string 'public'
+
+//VARs SNMP
+int changingNumber;
+int changingNumber2;
+int settableNumber;
+int uptimeValue=0;
+
+ 
 
 //sensor temp umid
   #define DHTPIN 5
@@ -34,40 +64,46 @@ const char index_html[] PROGMEM = R"rawliteral(
 <!DOCTYPE HTML><html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
-  <style>
-    html {
-     font-family: Arial;
-     display: inline-block;
-     margin: 0px auto;
-     text-align: center;
-    }
-    h2 { font-size: 3.0rem; }
-    p { font-size: 3.0rem; }
-    .units { font-size: 1.2rem; }
-    .dht-labels{
-      font-size: 1.5rem;
-      vertical-align:middle;
-      padding-bottom: 15px;
-    }
-  </style>
 </head>
 <body>
-  <h2>ESP8266 com leitura do sensor DHT22</h2>
+  <h2>ESP8266+DHT22</h2>
   <p>
-    <i class="fas fa-thermometer-half" style="color:#059e8a;"></i> 
-    <span class="dht-labels">Temperatura</span> 
+    <span>&#10052;</span>
+    <span>Temperatura</span> 
     <span id="temperature">%TEMPERATURA%</span>
-    <sup class="units">&deg;C</sup>
+    <sup>&deg;C</sup>
   </p>
   <p>
-    <i class="fas fa-tint" style="color:#00add6;"></i> 
-    <span class="dht-labels">Umidade</span>
+    <span>&#127777;</span>  
+    <span>Umidade</span>
     <span id="humidity">%UMIDADE%</span>
-    <sup class="units">%</sup>
+    <sup>%</sup>
   </p>
 </body>
+
 <script>
+
+
+// Obtém os valores de temperatura e umidade dos elementos HTML e atualiza as variáveis globais
+function updateValues() {
+  var getTemp = document.getElementById("temperature").textContent;
+  var getHum = document.getElementById("humidity").textContent;
+  window.globalTemperature = getTemp;
+  window.globalHumidity = getHum;
+  
+
+  
+  //DEBUG PRINTAR NO CONSOLE O VALOR  
+//  console.log(getTemp);
+//  console.log(getHum);
+
+  
+}
+
+// Atualiza os valores 
+setInterval(updateValues, 500);
+
+
 setInterval(function ( ) {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
@@ -92,7 +128,7 @@ setInterval(function ( ) {
 </script>
 </html>)rawliteral";
 //FIM DO HTML AQUI
-
+///////////////////////////////
 
 // Replaces placeholder with DHT values
 String processor(const String& var){
@@ -106,12 +142,30 @@ String processor(const String& var){
   return String();
 }
 
+
+
+
+
+
+
+
+
+
+
+
+//////////////////////////////////////////
+
 void setup(){
   // Serial port for debugging purposes
   Serial.begin(115200);
   dht.begin();
   
   // Connect to Wi-Fi
+  // Configures static IP address
+//  if (!WiFi.config(local_IP, gateway, subnet, primaryDNS, secondaryDNS)) {
+//     Serial.println("STA Failed to configure");
+//  }
+  
   WiFi.begin(ssid, password);
   Serial.println("#");
   Serial.println("#");
@@ -126,10 +180,21 @@ void setup(){
   // Print ESP8266 Local IP Address
   Serial.print("IP obtido: ");
   Serial.println(WiFi.localIP());
-  Serial.println("#");
-  Serial.println("#");
-  Serial.println("#");
+  Serial.println("#");  Serial.println("#");  Serial.println("#");
 
+  //SNMP
+  // give snmp a pointer to the UDP object
+  snmp.setUDP(&udp);
+  snmp.begin();
+
+  // add 'callback' for an OID - pointer to an integer
+  snmp.addIntegerHandler(".1.3.6.1.4.1.5.0", &changingNumber);
+  snmp.addIntegerHandler(".1.3.6.1.4.1.5.2", &changingNumber2);  
+  // you can accept SET commands with a pointer to an integer (or string)
+  snmp.addIntegerHandler(".1.3.6.1.4.1.5.1", &settableNumber);
+
+
+  
 
 
   // Route for root / web page
@@ -146,6 +211,8 @@ void setup(){
   // Start server
   server.begin();
 }
+
+/////////
  
 void loop(){  
   unsigned long currentMillis = millis();
@@ -182,4 +249,36 @@ void loop(){
     }
     Serial.println("----------");
   }
-}
+
+
+//SNMP
+    snmp.loop(); // must be called as often as possible
+    if(snmp.setOccurred){
+        Serial.printf("Number has been set to value: %i", settableNumber);
+        snmp.resetSetOccurred();
+    }
+    //changingNumber++;
+
+   changingNumber=temp;
+   changingNumber2=hum;
+
+   if(1==1){ //UPTIME
+   uptimeValue=uptimeValue+1;
+   settableNumber=uptimeValue;
+   delay(990);
+   //DEBUG
+   Serial.print("uptime: "); Serial.println(uptimeValue);
+   }
+   
+   if(Serial.available()){
+    changingNumber2=Serial.parseInt();
+    Serial.println(changingNumber2);
+    delay(1000);
+   }
+
+
+ // if(1==1){ //UPTIME
+ //   settableNumber=settableNumber+1;
+ //   delay(990);
+    //DEBUG  Serial.print("uptime: "); Serial.println(settableNumber);
+  }
