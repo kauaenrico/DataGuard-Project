@@ -1,0 +1,7 @@
+hostname: dataguardserver
+
+user: infra
+senha: automa
+
+user: root
+senha: automa

@@ -17,15 +17,15 @@
 
 
 //WIFI
-  const char* ssid = "DELL de Kauã";
-  const char* password = "123456789k";
+  const char* ssid = "2121_W5";
+  const char* password = "gjx2121fbo";
   
   // Set your Static IP address
-  IPAddress local_IP(192, 168, 137, 214);
-  IPAddress gateway(192, 168, 137, 1);
-  IPAddress subnet(255, 255, 255, 0);
-  IPAddress primaryDNS(8, 8, 8, 8); // optional
-  IPAddress secondaryDNS(1, 1, 1, 1); // optional
+//  IPAddress local_IP(192, 168, 15, 47); //(192, 168, 137, 214)
+//  IPAddress gateway(192, 168, 15, 1);
+//  IPAddress subnet(255, 255, 255, 0);
+//  IPAddress primaryDNS(8, 8, 8, 8); // optional
+//  IPAddress secondaryDNS(1, 1, 1, 1); // optional
 
 // SNMP
 WiFiUDP udp;
@@ -162,9 +162,9 @@ void setup(){
   
   // Connect to Wi-Fi
   // Configures static IP address
-//  if (!WiFi.config(local_IP, gateway, subnet, primaryDNS, secondaryDNS)) {
-//     Serial.println("STA Failed to configure");
-//  }
+  //if (!WiFi.config(local_IP, gateway, subnet, primaryDNS, secondaryDNS)) {
+  //   Serial.println("STA Failed to configure");
+  //}
   
   WiFi.begin(ssid, password);
   Serial.println("#");
@@ -173,7 +173,7 @@ void setup(){
   Serial.print("Conexão com WiFi ");
   Serial.println(ssid);
   while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
+    delay(2000);
     Serial.println("Conectando...");
   }
 
