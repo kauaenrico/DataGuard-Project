@@ -3,16 +3,16 @@
 // Project: DataGuard
 // UNISAL - Engenharia de Computação/3º Semestre
 
-#include <Arduino.h>
+//#include <Arduino.h>
 #include <ESP8266WiFi.h>
-#include <ESPAsyncTCP.h>
+//#include <ESPAsyncTCP.h>
 #include <ESPAsyncWebServer.h>
 #include <Adafruit_Sensor.h>
 #include <DHT.h>
 #include <stdio.h>
 #include <Arduino_SNMP.h>
 #include <WiFiUdp.h>
-#include <SNMP_Agent.h>
+//#include <SNMP_Agent.h>
 
 //#include <LittleFS.h>
 //#include <ArduinoJson.h> // Saved data will be stored in JSON
@@ -76,6 +76,7 @@ const char index_html[] PROGMEM = R"rawliteral(
 <body>
     <p id="temperature">%TEMPERATURA%</p>
     <p id="humidity">%UMIDADE%</p>
+    <p id="uptime">%UPTIME%</p>
 </body>
 
 <script>
@@ -100,9 +101,21 @@ const char index_html[] PROGMEM = R"rawliteral(
         xhttp.open("GET", "/humidity", true);
         xhttp.send();
     }, 500);
+
+    setInterval(function () {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("uptime").innerHTML = this.responseText;
+            }
+        };
+        xhttp.open("GET", "/uptime", true);
+        xhttp.send();
+    }, 500);  
 </script>
 
-</html>)rawliteral";
+</html>
+)rawliteral";
 //FIM DO HTML AQUI
 ///////////////////////////////
 
@@ -115,6 +128,9 @@ String processor(const String& var){
   else if(var == "UMIDADE"){
     return String(hum);
   }
+  else if(var == "UPTIME") {
+      return String(uptimeValue);
+    }
   return String();
 }
 
@@ -182,6 +198,9 @@ void setup(){
   });
   server.on("/humidity", HTTP_GET, [](AsyncWebServerRequest *request){
     request->send_P(200, "text/plain", String(hum).c_str());
+  });
+  server.on("/uptime", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send_P(200, "text/plain", String(uptimeValue).c_str());
   });
 
   // Start server
