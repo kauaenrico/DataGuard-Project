@@ -74,9 +74,13 @@ const char index_html[] PROGMEM = R"rawliteral(
 </head>
 
 <body>
-    <div><p id="temperature">%TEMPERATURA%</p></div>
-    <div><p id="humidity">%UMIDADE%</p></div>
-    <div><p id="uptime">%UPTIME%</p></div>
+    <table>
+      <tr>
+        <td><p id="temperature">%TEMPERATURA%</p></td>
+        <td><p id="humidity">%UMIDADE%</p></td>
+        <td><p id="uptime">%UPTIME%</p></td>
+      </tr>
+    </table>
 </body>
 
 <script>
