@@ -18,9 +18,6 @@
 //#include <ArduinoJson.h> // Saved data will be stored in JSON
 //#define FORMAT_LITTLEFS_IF_FAILED true // Be careful, this will wipe all the data stored. So you may want to set this to false once used once.
 
-
-
-
 //WIFI
   const char* ssid = "2121_W5";
   const char* password = "gjx2121fbo";
@@ -42,8 +39,6 @@ int changingNumber2;
 int settableNumber;
 int uptimeValue=0;
 
- 
-
 //sensor temp umid
   #define DHTPIN 5
   #define DHTTYPE    DHT22
@@ -51,19 +46,11 @@ int uptimeValue=0;
   unsigned long previousMillis = 0;    // will store last time DHT was updated
   const long interval = 500;  // Updates DHT readings
 
-
-
 //iniciando var em zero- no loop() ele é atualizado
 float temp = 0.0, hum = 0.0;
 
 // Create AsyncWebServer object on port 80
   AsyncWebServer server(80);
-
-
-
-
-
-
 
 const char index_html[] PROGMEM = R"rawliteral(
 <!DOCTYPE HTML>
@@ -118,8 +105,7 @@ const char index_html[] PROGMEM = R"rawliteral(
     }, 500);  
 </script>
 
-</html>
-)rawliteral";
+</html>)rawliteral";
 //FIM DO HTML AQUI
 ///////////////////////////////
 
@@ -137,17 +123,6 @@ String processor(const String& var){
     }
   return String();
 }
-
-
-
-
-
-
-
-
-
-
-
 
 //////////////////////////////////////////
 
@@ -188,10 +163,6 @@ void setup(){
   snmp.addIntegerHandler(".1.3.6.1.4.1.5.2", &changingNumber2);  
   // you can accept SET commands with a pointer to an integer (or string)
   snmp.addIntegerHandler(".1.3.6.1.4.1.5.1", &settableNumber);
-
-
-  
-
 
   // Route for root / web page
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
