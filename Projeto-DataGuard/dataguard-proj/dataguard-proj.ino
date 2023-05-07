@@ -14,9 +14,9 @@
 #include <WiFiUdp.h>
 #include <SNMP_Agent.h>
 
-#include <LittleFS.h>    // For storing and retreiving previous values or states (note: SPIFFS is deprecated and replaced by LittleFS)
-#include <ArduinoJson.h> // Saved data will be stored in JSON
-#define FORMAT_LITTLEFS_IF_FAILED true // Be careful, this will wipe all the data stored. So you may want to set this to false once used once.
+//#include <LittleFS.h>
+//#include <ArduinoJson.h> // Saved data will be stored in JSON
+//#define FORMAT_LITTLEFS_IF_FAILED true // Be careful, this will wipe all the data stored. So you may want to set this to false once used once.
 
 
 
@@ -66,71 +66,42 @@ float temp = 0.0, hum = 0.0;
 
 
 const char index_html[] PROGMEM = R"rawliteral(
-<!DOCTYPE HTML><html>
+<!DOCTYPE HTML>
+<html>
+
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DataGuard</title>
 </head>
+
 <body>
-  <h2>ESP8266+DHT22</h2>
-  <p>
-    <span>&#10052;</span>
-    <span>Temperatura</span> 
-    <span id="temperature">%TEMPERATURA%</span>
-    <sup>&deg;C</sup>
-  </p>
-  <p>
-    <span>&#127777;</span>  
-    <span>Umidade</span>
-    <span id="humidity">%UMIDADE%</span>
-    <sup>%</sup>
-  </p>
+    <p id="temperature">%TEMPERATURA%</p>
+    <p id="humidity">%UMIDADE%</p>
 </body>
 
 <script>
+    setInterval(function () {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("temperature").innerHTML = this.responseText;
+            }
+        };
+        xhttp.open("GET", "/temperature", true);
+        xhttp.send();
+    }, 500);
 
-
-// Obtém os valores de temperatura e umidade dos elementos HTML e atualiza as variáveis globais
-function updateValues() {
-  var getTemp = document.getElementById("temperature").textContent;
-  var getHum = document.getElementById("humidity").textContent;
-  window.globalTemperature = getTemp;
-  window.globalHumidity = getHum;
-  
-
-  
-  //DEBUG PRINTAR NO CONSOLE O VALOR  
-//  console.log(getTemp);
-//  console.log(getHum);
-
-  
-}
-
-// Atualiza os valores 
-setInterval(updateValues, 500);
-
-
-setInterval(function ( ) {
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      document.getElementById("temperature").innerHTML = this.responseText;
-    }
-  };
-  xhttp.open("GET", "/temperature", true);
-  xhttp.send();
-}, 10000 ) ;
-
-setInterval(function ( ) {
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      document.getElementById("humidity").innerHTML = this.responseText;
-    }
-  };
-  xhttp.open("GET", "/humidity", true);
-  xhttp.send();
-}, 10000 ) ;
+    setInterval(function () {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("humidity").innerHTML = this.responseText;
+            }
+        };
+        xhttp.open("GET", "/humidity", true);
+        xhttp.send();
+    }, 500);
 </script>
+
 </html>)rawliteral";
 //FIM DO HTML AQUI
 ///////////////////////////////
@@ -162,7 +133,7 @@ String processor(const String& var){
 
 void setup(){
   // Serial port for debugging purposes
-  Serial.begin(115200);
+  Serial.begin(9600);
   dht.begin();
   
   // Connect to Wi-Fi

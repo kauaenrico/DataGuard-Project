@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>DataGuard</title>
+</head>
+
+<body>
+    <p id="temperature">%TEMPERATURA%</p>
+    <p id="humidity">%UMIDADE%</p>
+</body>
+
+<script>
+setInterval(updateValues, 1000);
+
+function updateValues() {
+   var getTemp = document.getElementById("temperature").textContent;
+   var getHum = document.getElementById("humidity").textContent;
+   // adicione aqui o código que você deseja executar periodicamente
+}
+
+    // Obtém os valores de temperatura e umidade dos elementos HTML e atualiza as variáveis globais
+    //function updateValues() {
+    //    var getTemp = document.getElementById("temperature").textContent;
+    //    var getHum = document.getElementById("humidity").textContent;
+  
+        //DEBUG PRINTAR NO CONSOLE O VALOR  
+        //  console.log(getTemp);
+        //  console.log(getHum);
+    }
+
+    //setInterval(function () {
+    //    location.reload();
+    //}, 500);
+
+
+    // Atualiza os valores 
+    //setInterval(updateValues(){}, 500);
+
+    //setInterval(function() {
+    //location.reload();
+   // }, 1000);
+
+
+    setInterval(function () {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("temperature").innerHTML = this.responseText;
+            }
+        };
+        xhttp.open("GET", "/temperature", true);
+        xhttp.send();
+    }, 500);
+
+    setInterval(function () {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("humidity").innerHTML = this.responseText;
+            }
+        };
+        xhttp.open("GET", "/humidity", true);
+        xhttp.send();
+    }, 500);
+</script>
+
+</html>
