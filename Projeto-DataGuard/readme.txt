@@ -24,4 +24,7 @@ Caso queira DHCP, comentar os seguintes itens:
  	  }
 
 ######
-
+SNMP OID
+	1.3.6.1.4.1.5.0 - Variavel changingNumber - Variavel temp
+  	1.3.6.1.4.1.5.2 - Variavel changingNumber2 - Variavel hum 
+	1.3.6.1.4.1.5.1 - Variavel settableNumber - Variavel uptimeValue
