@@ -197,6 +197,7 @@ void setup(){
  
 void loop(){  
   ArduinoCloud.update();
+  
   unsigned long currentMillis = millis();
   if (currentMillis - previousMillis >= interval) {
     // save the last time you updated the DHT values
