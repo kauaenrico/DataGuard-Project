@@ -19,8 +19,8 @@
 //#define FORMAT_LITTLEFS_IF_FAILED true // Be careful, this will wipe all the data stored. So you may want to set this to false once used once.
 
 //WIFI
-  const char* ssid = "2121_W5";
-  const char* password = "gjx2121fbo";
+  const char* ssid = "DELL de Kauã";
+  const char* password = "123456789k";
   
   // Set your Static IP address
 //  IPAddress local_IP(192, 168, 15, 47); //(192, 168, 137, 214)
@@ -40,7 +40,7 @@ int settableNumber;
 int uptimeValue=0;
 
 //sensor temp umid
-  #define DHTPIN 5
+  #define DHTPIN 14
   #define DHTTYPE    DHT22
   DHT dht(DHTPIN, DHTTYPE);
   unsigned long previousMillis = 0;    // will store last time DHT was updated
@@ -61,13 +61,9 @@ const char index_html[] PROGMEM = R"rawliteral(
 </head>
 
 <body>
-    <table>
-      <tr>
-        <td><p id="temperature">%TEMPERATURA%</p></td>
-        <td><p id="humidity">%UMIDADE%</p></td>
-        <td><p id="uptime">%UPTIME%</p></td>
-      </tr>
-    </table>
+  <span id="temperature">%TEMPERATURA%</span>
+  <span id="humidity">%UMIDADE%</span>
+  <span id="uptime">%UPTIME%</span>
 </body>
 
 <script>
