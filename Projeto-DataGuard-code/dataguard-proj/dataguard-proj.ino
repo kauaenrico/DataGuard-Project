@@ -4,7 +4,7 @@
 // UNISAL - Engenharia de Computação/3º Semestre
 
 
-#include "thingProperties.h"
+//#include "thingProperties.h"
 #include <ESP8266WiFi.h>
 #include <ESPAsyncWebServer.h>
 #include <Adafruit_Sensor.h>
@@ -134,11 +134,11 @@ void setup(){
 
   
   // Defined in thingProperties.h
-  initProperties();
+//  initProperties();
   // Connect to Arduino IoT Cloud
-  ArduinoCloud.begin(ArduinoIoTPreferredConnection);
-  setDebugMessageLevel(2);
-  ArduinoCloud.printDebugInfo();
+//  ArduinoCloud.begin(ArduinoIoTPreferredConnection);
+//  setDebugMessageLevel(2);
+//  ArduinoCloud.printDebugInfo();
 
   
 
@@ -196,7 +196,7 @@ void setup(){
 /////////
  
 void loop(){  
-  ArduinoCloud.update();
+//  ArduinoCloud.update();
   unsigned long currentMillis = millis();
   if (currentMillis - previousMillis >= interval) {
     // save the last time you updated the DHT values
