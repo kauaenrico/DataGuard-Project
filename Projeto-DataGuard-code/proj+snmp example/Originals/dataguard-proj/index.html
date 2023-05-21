@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>DataGuard</title>
+</head>
+
+<body>
+    <table>
+      <tr>
+        <td><span id="temperature">%TEMPERATURA%</span></td>
+        <td><span id="humidity">%UMIDADE%</span></td>
+        <td><span id="uptime">%UPTIME%</span></td>
+      </tr>
+    </table>
+</body>
+
+<script>
+    setInterval(function () {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("temperature").innerHTML = this.responseText;
+            }
+        };
+        xhttp.open("GET", "/temperature", true);
+        xhttp.send();
+    }, 500);
+
+    setInterval(function () {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("humidity").innerHTML = this.responseText;
+            }
+        };
+        xhttp.open("GET", "/humidity", true);
+        xhttp.send();
+    }, 500);
+
+    setInterval(function () {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("uptime").innerHTML = this.responseText;
+            }
+        };
+        xhttp.open("GET", "/uptime", true);
+        xhttp.send();
+    }, 500);  
+</script>
+
+</html>
