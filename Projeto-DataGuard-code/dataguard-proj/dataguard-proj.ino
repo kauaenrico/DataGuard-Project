@@ -140,9 +140,7 @@ void setup(){
 //  setDebugMessageLevel(2);
 //  ArduinoCloud.printDebugInfo();
 
-  
 
-  
   // Connect to Wi-Fi
   // Configures static IP address
   //if (!WiFi.config(local_IP, gateway, subnet, primaryDNS, secondaryDNS)) {
@@ -232,15 +230,14 @@ void loop(){
     Serial.println("----------");
   }
 
-
 //SNMP
     snmp.loop(); // must be called as often as possible
     if(snmp.setOccurred){
         Serial.printf("Number has been set to value: %i", settableNumber);
         snmp.resetSetOccurred();
     }
+    
     //changingNumber++;
-
    changingNumber=temp;
    changingNumber2=hum;
 
@@ -249,7 +246,7 @@ void loop(){
    settableNumber=uptimeValue;
    delay(990);
    //DEBUG
-   Serial.print("uptime: "); Serial.println(uptimeValue);
+   //Serial.print("uptime: "); Serial.println(uptimeValue);
    }
    
    if(Serial.available()){
@@ -257,10 +254,4 @@ void loop(){
     Serial.println(changingNumber2);
     delay(1000);
    }
-
-
- // if(1==1){ //UPTIME
- //   settableNumber=settableNumber+1;
- //   delay(990);
-    //DEBUG  Serial.print("uptime: "); Serial.println(settableNumber);
   }
