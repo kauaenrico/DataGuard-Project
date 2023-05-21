@@ -168,10 +168,17 @@ void setup(){
   snmp.begin();
 
   // add 'callback' for an OID - pointer to an integer
-  snmp.addIntegerHandler(".1.3.6.1.4.1.5.0", &changingNumber);
-  snmp.addIntegerHandler(".1.3.6.1.4.1.5.2", &changingNumber2);  
+  //snmp.addIntegerHandler(".1.3.6.1.4.1.5.0", &changingNumber);
+  //snmp.addIntegerHandler(".1.3.6.1.4.1.5.2", &changingNumber2);  
   // you can accept SET commands with a pointer to an integer (or string)
-  snmp.addIntegerHandler(".1.3.6.1.4.1.5.1", &settableNumber);
+  //snmp.addIntegerHandler(".1.3.6.1.4.1.5.1", &settableNumber);
+
+
+  snmp.addIntegerHandler(".1.3.6.1.4.1.5.0", &temp);
+  snmp.addIntegerHandler(".1.3.6.1.4.1.5.2", &hum);  
+  // you can accept SET commands with a pointer to an integer (or string)
+  snmp.addIntegerHandler(".1.3.6.1.4.1.5.1", &uptimeValue);
+  
 
   // Route for root / web page
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
