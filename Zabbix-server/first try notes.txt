@@ -1,7 +1,31 @@
-hostname: dataguardserver
+hostname: DGZBXSV01
+OS: Ubuntu 22.04 server
 
 user: infra
-senha: automa
+senha: dataguard
 
-user: root
-senha: automa
+
+
+####### Postgres #####
+User: zabbix
+PW: dataguard
+
+
+###### Zabbix Web #####
+Root user:
+	Name: Admin
+	PW: zabbix
+
+Project user:
+	Name: dataguard
+	PW: dataguard
+
+
+
+iface eth0 inet static
+address 10.50.10.50
+netmask 255.255.255.0
+gateway 10.50.10.1
+
+auto eth0
+iface eth0 inet dhcp
