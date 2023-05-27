@@ -1,7 +1,7 @@
 hostname: DGZBXSV01
 OS: Ubuntu 22.04 server
 
-user: infra
+user: infra or dataguard
 senha: dataguard
 
 
