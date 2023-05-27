@@ -1,0 +1,16 @@
+Rede Wifi utilizada para a apresentação:
+
+SSID: DATAGUARD-WIFI
+password: dataguard2023
+
+IP router: 10.0.0.1
+admin
+admindg
+
+ESP Módulo DataGuard:
+10.0.0.10
+MAC 
+
+Notebook Kaua Server:
+10.0.0.50
+MAC 38-FC-98-1B-25-6A
