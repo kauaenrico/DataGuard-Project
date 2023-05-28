@@ -1,0 +1,74 @@
+zabbix_export:
+  version: '6.4'
+  host_groups:
+    -
+      uuid: 320110746af7425493169d32a8ef73e0
+      name: DataGuard
+  hosts:
+    -
+      host: DataGuard_CPD01
+      name: DataGuard_CPD01
+      templates:
+        -
+          name: 'DataGuard simple package'
+      groups:
+        -
+          name: DataGuard
+      interfaces:
+        -
+          type: SNMP
+          ip: 10.0.0.10
+          port: '161'
+          details:
+            version: SNMPV1
+            community: '{$SNMP_COMMUNITY}'
+          interface_ref: if1
+      items:
+        -
+          name: Umidade
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.5.2
+          key: hum
+          delay: 1s
+          value_type: FLOAT
+          interface_ref: if1
+          triggers:
+            -
+              expression: last(/DataGuard_CPD01/hum)>55
+              name: 'Umidade alta'
+              priority: AVERAGE
+        -
+          name: Temperatura
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.5.0
+          key: temp
+          delay: 1s
+          value_type: FLOAT
+          interface_ref: if1
+          triggers:
+            -
+              expression: last(/DataGuard_CPD01/temp)>25
+              name: 'Temperatura alta'
+              priority: AVERAGE
+        -
+          name: 'Uptime DataGuard'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.5.1
+          key: uptimedg
+          delay: 1s
+          interface_ref: if1
+          tags:
+            -
+              tag: Application
+              value: status
+      inventory_mode: DISABLED
+  graphs:
+    -
+      name: Temperatura
+      graph_items:
+        -
+          color: 1A7C11
+          calc_fnc: ALL
+          item:
+            host: DataGuard_CPD01
+            key: temp
