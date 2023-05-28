@@ -19,15 +19,15 @@
 //#define FORMAT_LITTLEFS_IF_FAILED true // Be careful, this will wipe all the data stored. So you may want to set this to false once used once.
 
 //WIFI
-  const char* ssid = "DELL de Kauã";
-  const char* password = "123456789k";
+  const char* ssid = "DATAGUARD-WIFI";
+  const char* password = "dataguard2023";
   
   // Set your Static IP address
-//  IPAddress local_IP(192, 168, 15, 47); //(192, 168, 137, 214)
-//  IPAddress gateway(192, 168, 15, 1);
-//  IPAddress subnet(255, 255, 255, 0);
-//  IPAddress primaryDNS(8, 8, 8, 8); // optional
-//  IPAddress secondaryDNS(1, 1, 1, 1); // optional
+IPAddress local_IP(10, 0, 0, 10); //(192, 168, 137, 214)
+IPAddress gateway(10, 0, 0, 1);
+IPAddress subnet(255, 255, 255, 0);
+IPAddress primaryDNS(8, 8, 8, 8); // optional
+IPAddress secondaryDNS(1, 1, 1, 1); // optional
 
 // SNMP
 WiFiUDP udp;
