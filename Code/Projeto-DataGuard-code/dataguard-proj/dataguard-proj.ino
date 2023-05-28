@@ -25,11 +25,11 @@
   const char* password = "dataguard2023";
   
   // Set your Static IP address
-IPAddress local_IP(10, 00, 00, 10); //(192, 168, 137, 214)
-IPAddress gateway(10, 00, 00, 1);
-IPAddress subnet(255, 255, 255, 0);
-IPAddress primaryDNS(8, 8, 8, 8); // optional
-IPAddress secondaryDNS(1, 1, 1, 1); // optional
+//IPAddress local_IP(10, 0, 0, 10); //(192, 168, 137, 214)
+//IPAddress gateway(10, 0, 0, 1);
+//IPAddress subnet(255, 255, 255, 0);
+//IPAddress primaryDNS(8, 8, 8, 8); // optional
+//IPAddress secondaryDNS(1, 1, 1, 1); // optional
 
 // SNMP
 WiFiUDP udp;
@@ -146,9 +146,9 @@ void setup(){
 
   // Connect to Wi-Fi
   // Configures static IP address
-  if (!WiFi.config(local_IP, gateway, subnet, primaryDNS, secondaryDNS)) {
-     Serial.println("STA Failed to configure");
-  }
+  //if (!WiFi.config(local_IP, gateway, subnet, primaryDNS, secondaryDNS)) {
+    // Serial.println("STA Failed to configure");
+  //}
   WiFi.begin(ssid, password);
   Serial.println("#");
   Serial.println("#");
@@ -156,12 +156,13 @@ void setup(){
   Serial.print("Conexão com WiFi ");
   Serial.println(ssid);
   while (WiFi.status() != WL_CONNECTED) {
-    delay(1000);
     Serial.println("Conectando...");
+    delay(500);
     digitalWrite(LED_BUILTIN, HIGH);
-    delay(1000);
+    delay(500);
     digitalWrite(LED_BUILTIN, LOW);
   }
+  
 
   // Print ESP8266 Local IP Address
   Serial.print("IP obtido: ");
@@ -207,7 +208,8 @@ void setup(){
 /////////
  
 void loop(){
-    digitalWrite(LED_BUILTIN, HIGH);
+  
+  
 //  ArduinoCloud.update();
   unsigned long currentMillis = millis();
   if (currentMillis - previousMillis >= interval) {
