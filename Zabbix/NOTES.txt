@@ -1,0 +1,50 @@
+hostname: DGZBXSV01
+OS: Ubuntu 22.04 server
+
+user: infra or dataguard
+senha: dataguard
+
+
+
+####### Postgres #####
+User: zabbix
+PW: dataguard
+
+
+###### Zabbix Web #####
+Root user:
+	Name: Admin
+	PW: zabbix
+
+Project user:
+	Name: dataguard
+	PW: dataguard
+
+
+
+iface eth0 inet static
+address 10.50.10.50
+netmask 255.255.255.0
+gateway 10.50.10.1
+
+auto eth0
+iface eth0 inet dhcp
+
+##############
+
+DB infos:
+Schemas > public > Tables
+
+> Hosts
+	DataGuard_CPD01....hostid=10567
+
+> items
+itemid	name			key_
+44897		Temperatura		temp
+44898		Umidade		hum
+44896		Uptime DataGuard	uptimedg
+
+> History (conseguimos coletar os dados)
+
+
+
