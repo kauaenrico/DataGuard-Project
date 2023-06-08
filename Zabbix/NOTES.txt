@@ -39,9 +39,9 @@ Schemas > public > Tables
 	DataGuard_CPD01....hostid=10567
 
 > items
-itemid	name			key_
+itemid		name			key_
 44897		Temperatura		temp
-44898		Umidade		hum
+44898		Umidade			hum
 44896		Uptime DataGuard	uptimedg
 
 > History (conseguimos coletar os dados)
