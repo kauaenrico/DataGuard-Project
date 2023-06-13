@@ -3,7 +3,6 @@
 // Project: DataGuard
 // UNISAL - Engenharia de Computação/3º Semestre
 
-
 //#include "thingProperties.h"
 #include <ESP8266WiFi.h>
 #include <ESPAsyncWebServer.h>
@@ -13,8 +12,6 @@
 #include <Arduino_SNMP.h>
 #include <WiFiUdp.h>
 //#include <SNMP_Agent.h>
-
-
 
 //#include <LittleFS.h>
 //#include <ArduinoJson.h> // Saved data will be stored in JSON
