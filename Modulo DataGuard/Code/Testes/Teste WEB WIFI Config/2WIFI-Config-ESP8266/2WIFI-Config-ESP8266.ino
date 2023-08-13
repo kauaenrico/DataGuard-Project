@@ -21,9 +21,15 @@ void setup() {
 }
 
 void loop() {
+  if (apMode) {
+    blinkLED(500); // Piscar a cada 500ms quando no modo AP
+  } else if (WiFi.status() != WL_CONNECTED) {
+    blinkLED(1000); // Piscar a cada 1000ms (1 segundo) ao tentar conectar
+  } else {
+    digitalWrite(LED_BUILTIN, HIGH); // Manter o LED aceso quando conectado
+  }
+
   // Você pode adicionar outras partes do seu código aqui
-  Serial.println("teste");
-  delay(1000);
 }
 
 void startAPMode() {
@@ -40,7 +46,7 @@ void startAPMode() {
 }
 
 void connectToWiFi() {
-  digitalWrite(LED_BUILTIN, HIGH); // Desligar o LED para indicar a conexão com a rede
+  digitalWrite(LED_BUILTIN, LOW); // Ligar o LED para indicar a tentativa de conexão
   
   Serial.println("Conectando à rede WiFi...");
 
@@ -54,4 +60,17 @@ void connectToWiFi() {
   Serial.println("Conectado à rede WiFi!");
   Serial.print("Endereço IP: ");
   Serial.println(WiFi.localIP());
+}
+
+void blinkLED(int interval) {
+  static unsigned long previousMillis = 0;
+  static bool ledState = false;
+  
+  unsigned long currentMillis = millis();
+  
+  if (currentMillis - previousMillis >= interval) {
+    previousMillis = currentMillis;
+    ledState = !ledState;
+    digitalWrite(LED_BUILTIN, ledState ? HIGH : LOW);
+  }
 }

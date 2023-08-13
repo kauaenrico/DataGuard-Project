@@ -18,8 +18,8 @@
 //#define FORMAT_LITTLEFS_IF_FAILED true // Be careful, this will wipe all the data stored. So you may want to set this to false once used once.
 
 //WIFI
-  const char* ssid = "2121_W5";
-  const char* password = "gjx2121fbo";
+  const char* ssid = "2121_W2";
+  const char* password = "gjxdfw21fbo";
   
   // Set your Static IP address
 //IPAddress local_IP(10, 0, 0, 10); //(192, 168, 137, 214)
