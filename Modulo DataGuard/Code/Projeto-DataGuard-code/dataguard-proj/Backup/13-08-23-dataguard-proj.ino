@@ -18,8 +18,8 @@
 //#define FORMAT_LITTLEFS_IF_FAILED true // Be careful, this will wipe all the data stored. So you may want to set this to false once used once.
 
 //WIFI
-  const char* ssid = "2121_W5";
-  const char* password = "gjx2121fbo";
+  const char* ssid = "DATAGUARD-WIFI";
+  const char* password = "dataguard2023";
   
   // Set your Static IP address
 //IPAddress local_IP(10, 0, 0, 10); //(192, 168, 137, 214)
@@ -48,8 +48,8 @@ int uptimeValue=0;
 //iniciando var em zero- no loop() ele é atualizado
 float temp = 0.0, hum = 0.0;
 
-// Create AsyncWebServer object on port 8080
-  AsyncWebServer server(8080);
+// Create AsyncWebServer object on port 80
+  AsyncWebServer server(80);
 
 const char index_html[] PROGMEM = R"rawliteral(
 <!DOCTYPE HTML>

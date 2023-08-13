@@ -5,7 +5,7 @@
 
 //#include "thingProperties.h"
 #include <ESP8266WiFi.h>
-#include <ESPAsyncWebServer.h>
+//#include <ESPAsyncWebServer.h>
 #include <Adafruit_Sensor.h>
 #include <DHT.h>
 #include <stdio.h>
@@ -13,13 +13,23 @@
 #include <WiFiUdp.h>
 //#include <SNMP_Agent.h>
 
+#include <DNSServer.h>
+#include <ESP8266WebServer.h>
+#include <WiFiManager.h>
+
+// Create an instance of ESP8266WebServer
+ESP8266WebServer server(80);
+
+// Create an instance of WiFiManager
+WiFiManager wifiManager;
+
 //#include <LittleFS.h>
 //#include <ArduinoJson.h> // Saved data will be stored in JSON
 //#define FORMAT_LITTLEFS_IF_FAILED true // Be careful, this will wipe all the data stored. So you may want to set this to false once used once.
 
 //WIFI
-  const char* ssid = "2121_W5";
-  const char* password = "gjx2121fbo";
+  const char* ssid = "DATAGUARD-WIFI";
+  const char* password = "dataguard2023";
   
   // Set your Static IP address
 //IPAddress local_IP(10, 0, 0, 10); //(192, 168, 137, 214)
@@ -48,8 +58,8 @@ int uptimeValue=0;
 //iniciando var em zero- no loop() ele é atualizado
 float temp = 0.0, hum = 0.0;
 
-// Create AsyncWebServer object on port 8080
-  AsyncWebServer server(8080);
+// Create AsyncWebServer object on port 80
+//  AsyncWebServer server(80);
 
 const char index_html[] PROGMEM = R"rawliteral(
 <!DOCTYPE HTML>
@@ -185,27 +195,30 @@ void setup(){
   
 
   // Route for root / web page
-  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
-    request->send_P(200, "text/html", index_html, processor);
-  });
-  server.on("/temperature", HTTP_GET, [](AsyncWebServerRequest *request){
-    request->send_P(200, "text/plain", String(temp).c_str());
-  });
-  server.on("/humidity", HTTP_GET, [](AsyncWebServerRequest *request){
-    request->send_P(200, "text/plain", String(hum).c_str());
-  });
-  server.on("/uptime", HTTP_GET, [](AsyncWebServerRequest *request){
-    request->send_P(200, "text/plain", String(uptimeValue).c_str());
-  });
+//  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
+//    request->send_P(200, "text/html", index_html, processor);
+//  });
+//  server.on("/temperature", HTTP_GET, [](AsyncWebServerRequest *request){
+//    request->send_P(200, "text/plain", String(temp).c_str());
+//  });
+//  server.on("/humidity", HTTP_GET, [](AsyncWebServerRequest *request){
+//    request->send_P(200, "text/plain", String(hum).c_str());
+//  });
+//  server.on("/uptime", HTTP_GET, [](AsyncWebServerRequest *request){
+//    request->send_P(200, "text/plain", String(uptimeValue).c_str());
+//  });
 
   // Start server
   server.begin();
+    // Initialize WiFiManager
+  wifiManager.autoConnect("DataGuardConfig");
 }
 
 /////////
  
 void loop(){
-  
+  // Handle server requests
+  server.handleClient();
   
 //  ArduinoCloud.update();
   unsigned long currentMillis = millis();

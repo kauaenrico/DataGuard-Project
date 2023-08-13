@@ -1,6 +1,9 @@
 Projeto iniciado pelo arquivo
 \PROJETO-3SEMESTRE-ENG_COMPUTACAO\teste1-simple-dht-server\
 
+ACESSO WEB UTILIZANDO PORTA 8080
+ip:8080
+exemplo: 192.168.15.20:8080
 
 Changes:
 
