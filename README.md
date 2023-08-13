@@ -2,16 +2,17 @@
 #### Projeto integrador - UNISAL - Engenharia de Computação - 3º Semestre
 ---
 ##### Equipe:
-Henrique Pignato
-Gabriel Vitor Rosa
-Kauã Enrico Pasti Altran
-Leonardo Fernandes Fanhani
-Lucas Gabriel Bento Correa
-Luke Gabriel dos Santos Belatine
+- Henrique Pignato
+- Gabriel Vitor Rosa
+- Kauã Enrico Pasti Altran
+- Leonardo Fernandes Fanhani
+- Lucas Gabriel Bento Correa
+- Luke Gabriel dos Santos Belatine
 ---
 
 ## Acesso ao material
-[Apresentação DataGuard](https://github.com/kauaenrico/DataGuard-Project/blob/70844c4920b67016136615777740e0d766250db7/Apresenta%C3%A7%C3%A3o/DataGuard%20Apresentacao%20Final%20v1.pptx)  |   [Artigo DataGuard](https://github.com/kauaenrico/DataGuard-Project/blob/70844c4920b67016136615777740e0d766250db7/Artigo/Artigo-DataGuard_Finalv1.pdf) 
+[Apresentação DataGuard](https://github.com/kauaenrico/DataGuard-Project/blob/70844c4920b67016136615777740e0d766250db7/Apresenta%C3%A7%C3%A3o/DataGuard%20Apresentacao%20Final%20v1.pptx)  |   [Artigo DataGuard](https://github.com/kauaenrico/DataGuard-Project/blob/70844c4920b67016136615777740e0d766250db7/Artigo/Artigo-DataGuard_Finalv1.pdf)
+
 [Projeto Completo](github.com/kauaenrico/DataGuard-Project)
 
 ##### NOSSO OBJETIVO
@@ -45,13 +46,13 @@ Segue a **Norma ABNT 14565:2013**, que recomenda a temperatura e umidade relativ
 Estabelecemos a base de funcionamento para nossa solução de monitoramento:
 ![Fluxograma Inicial](https://github.com/kauaenrico/DataGuard-Project/blob/e3289e17d0f0fee5664cb1f1ae49250c02976d0a/.README/fluxograma.png "Fluxograma Inicial")
 
-![Fluxograma Inicial](.README/fluxograma.png "Fluxograma Inicial")
+![Esquema eletronico](.READMEfritzing1.png "Esquema eletronico")
 
 
 IMAGEM DO FLUXOGRAMA WHIMSCAL
 
 Utilizamos o módulo ESP8266 e DHT22
-IMAGEM FRITZING ESQUEMA ELETRONICO
+![Esquema eletronico](.READMEfritzing1.png "Esquema eletronico")
 Positivo (3,3v)
 Negativo (GND)
 UART (TX/RX)
