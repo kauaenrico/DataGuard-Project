@@ -46,16 +46,12 @@ Segue a **Norma ABNT 14565:2013**, que recomenda a temperatura e umidade relativ
 Estabelecemos a base de funcionamento para nossa solução de monitoramento:
 ![Fluxograma Inicial](https://github.com/kauaenrico/DataGuard-Project/blob/e3289e17d0f0fee5664cb1f1ae49250c02976d0a/.README/fluxograma.png "Fluxograma Inicial")
 
-![Esquema eletronico](.READMEfritzing1.png "Esquema eletronico")
-
-
-IMAGEM DO FLUXOGRAMA WHIMSCAL
-
-Utilizamos o módulo ESP8266 e DHT22
-![Esquema eletronico](.READMEfritzing1.png "Esquema eletronico")
-Positivo (3,3v)
-Negativo (GND)
-UART (TX/RX)
+Utilizamos o módulo ESP8266 e DHT22:
+![Esquema eletronico](https://github.com/kauaenrico/DataGuard-Project/blob/e3289e17d0f0fee5664cb1f1ae49250c02976d0a/.README/fritzing1.png "Esquema eletronico")
+- Positivo (3,3v)
+- Negativo (GND)
+- UART (TX/RX)
+  
 
 ##### DESENVOLVIMENTO>FIRMWARE
 Utilizado linguagem C para sistema base para o microcontrolador, programado a partir do Arduino IDE
